@@ -22,12 +22,27 @@
   </head>
 
   <body style="background: #15a96f;">
-    <% @feed.reject(&:retweet?).each do |tweet| %>
+    <% @tweets.reject(&:retweet?).each do |tweet| %>
       <article style="background: white; padding: 20px 10px 60px; float: left; width: 20%;">
-        <p style="font: 300 24px/1.2em 'Helvetica', sans-serif;"><%= tweet.full_text %></p>
+        <blockquote>
+          <p style="font: 300 24px/1.2em 'Helvetica', sans-serif;"><%= tweet.full_text %></p>
+        </blockquote>
         <footer>
           <img src="<%= tweet.user.profile_image_url(:bigger) %>" alt="" style="border-radius: 50px; display: block; margin: 0 auto;">
           <strong style="display: block; text-align: center; font: bold 24px Helvetica, sans-serif;">@<%= tweet.user.screen_name %></strong>
+        </footer>
+      </article>
+    <% end %>
+    
+    <% @grams.each do |gram| %>
+      <article style="background: white; padding: 20px 10px 60px; float: left; width: 20%;">
+        <figure style="font: 300 24px/1.2em 'Helvetica', sans-serif;">
+          <img src="<%= gram.images.low_resolution.url %>" alt="">
+          <figcaption><%= gram.caption[:text] %></figcaption>
+        </figure>
+        <footer>
+          <img src="<%= gram.user.profile_picture %>" alt="" style="border-radius: 50px; display: block; margin: 0 auto; width: 73px;">
+          <strong style="display: block; text-align: center; font: bold 24px Helvetica, sans-serif;">@<%= gram.user.username %></strong>
         </footer>
       </article>
     <% end %>
