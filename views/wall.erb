@@ -18,33 +18,107 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script async src="https://d36hc0p18k1aoc.cloudfront.net/pages/a5b5e4.js"></script>
+    <link rel="stylesheet" href="/css/flexslider.css" type="text/css">
+
+    <style type="text/css" media="screen">
+      * {margin: 0; padding: 0;}
+      body {background: #15a96f;}
+
+      .flexslider {position: absolute; top: 5%; right: 3%; bottom: 15%; left: 3%; }
+
+      h1 {position: absolute; left: 40px; right: 40px; bottom: 7.5%; text-align: center; color: #fff; font: 900 48px/1em Helvetica, sans-serif;}
+
+      article {padding: 120px 0 0; text-align: center; margin: 0 auto;}
+      p {max-width: 50%; margin: 0 auto;}
+
+      p, figure {font: 300 40px/1.2em 'Helvetica', sans-serif; margin-bottom: 40px;}
+
+      footer > img {border-radius: 500px; max-width: 150px;}
+
+      strong {display: block; margin-top: 20px; font: bold 24px Helvetica, sans-serif;}
+
+      .gram {position: relative; padding-top: 0;}
+      .gram figure img {max-width: 460px;}
+      .gram figure {font-size: 26px;}
+      .gram strong {margin-top: 0;}
+      .gram footer > img {max-width: 70px;}
+
+      .tag {color: #777;}
+      .mention {color: #777; font-weight: normal;}
+
+      .tweet {background: url('/img/twitter.png') no-repeat 50% 35px;}
+      .gram {background: url('/img/instagram.png') no-repeat 96% 100%; overflow: hidden;}
+      .face {background: url('/img/facebook.png') no-repeat 50% 35px;}
+
+      .flexslider img {width: auto;}
+    </style>
+
+    <script src="/js/vendor/modernizr-2.6.2.min.js"></script>
   </head>
 
-  <body style="background: #15a96f;">
-    <% @tweets.reject(&:retweet?).each do |tweet| %>
-      <article style="background: white; padding: 20px 10px 60px; float: left; width: 20%;">
-        <blockquote>
-          <p style="font: 300 24px/1.2em 'Helvetica', sans-serif;"><%= tweet.full_text %></p>
-        </blockquote>
-        <footer>
-          <img src="<%= tweet.user.profile_image_url(:bigger) %>" alt="" style="border-radius: 50px; display: block; margin: 0 auto;">
-          <strong style="display: block; text-align: center; font: bold 24px Helvetica, sans-serif;">@<%= tweet.user.screen_name %></strong>
-        </footer>
-      </article>
-    <% end %>
-    
-    <% @grams.each do |gram| %>
-      <article style="background: white; padding: 20px 10px 60px; float: left; width: 20%;">
-        <figure style="font: 300 24px/1.2em 'Helvetica', sans-serif;">
-          <img src="<%= gram.images.low_resolution.url %>" alt="">
-          <figcaption><%= gram.caption[:text] %></figcaption>
-        </figure>
-        <footer>
-          <img src="<%= gram.user.profile_picture %>" alt="" style="border-radius: 50px; display: block; margin: 0 auto; width: 73px;">
-          <strong style="display: block; text-align: center; font: bold 24px Helvetica, sans-serif;">@<%= gram.user.username %></strong>
-        </footer>
-      </article>
-    <% end %>
+  <body>
+
+    <h1>#forgecph</h1>
+
+    <div class="flexslider">
+      <ul class="slides">
+        <% @tweets.reject(&:retweet?).each do |tweet| %>
+          <li>
+            <article class="tweet">
+              <blockquote>
+                <p><%= tweet.full_text.gsub(/(\#\w+)/, '<span class="tag">\1</span>').gsub(/(\@\w+)/, '<span class="mention">\1</span>') %></p>
+              </blockquote>
+              <footer>
+                <img src="<%= tweet.user.profile_image_url(:original) %>" alt="">
+                <strong>@<%= tweet.user.screen_name %></strong>
+              </footer>
+            </article>
+          </li>
+        <% end %>
+
+        <% @grams.each do |gram| %>
+          <li>
+            <article class="gram">
+              <figure>
+                <img src="<%= gram.images.standard_resolution.url %>" alt="">
+                <figcaption><%= gram.caption[:text] %></figcaption>
+              </figure>
+              <footer>
+                <img src="<%= gram.user.profile_picture %>" alt="">
+                <strong>@<%= gram.user.username %></strong>
+              </footer>
+            </article>
+          </li>
+        <% end %>
+
+        <% @faces.each do |face| %>
+          <li>
+            <article class="face">
+              <blockquote>
+                <p><%= face[:message] %></p>
+              </blockquote>
+              <footer>
+                <img src="<%#= tweet.user.profile_image_url(:bigger) %>" alt="">
+                <strong><%= face[:from][:name] %></strong>
+              </footer>
+            </article>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+
+    <script defer src="/js/jquery.flexslider-min.js"></script>
+    <script>
+      $(window).load(function() {
+        $('.flexslider').flexslider({
+          randomize: true,
+          directionNav: false
+        });
+      });
+    </script>
+
   </body>
 </html>
