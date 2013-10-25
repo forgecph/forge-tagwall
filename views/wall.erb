@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>#forgecph</title>
+
+    <!--
+      Made with <3 in the heart of Copenhagen, Denmark.
+      See humans.txt for additional credits.
+      
+      Steal like an artist.
+    -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script async src="https://d36hc0p18k1aoc.cloudfront.net/pages/a5b5e4.js"></script>
+  </head>
+
+  <body style="background: #15a96f;">
+    <% @feed.reject(&:retweet?).each do |tweet| %>
+      <article style="background: white; padding: 20px 10px 60px; float: left; width: 20%;">
+        <p style="font: 300 24px/1.2em 'Helvetica', sans-serif;"><%= tweet.full_text %></p>
+        <footer>
+          <img src="<%= tweet.user.profile_image_url(:bigger) %>" alt="" style="border-radius: 50px; display: block; margin: 0 auto;">
+          <strong style="display: block; text-align: center; font: bold 24px Helvetica, sans-serif;">@<%= tweet.user.screen_name %></strong>
+        </footer>
+      </article>
+    <% end %>
+  </body>
+</html>
